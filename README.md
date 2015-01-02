@@ -1,10 +1,13 @@
 HumbleBundle Metalink generator
 ===============================
 
+Generates a .metalink file for your HumbleBundle downloads.
+
+The generated .metalink file includes HTTPS, torrent and magnet links, as well as other information provided by the HumbleBundle API (file size, MD5/SHA1 hashes).
+
 	usage: metahumble.py [-h] [--cache] [--platform PLATFORM] [--torrents]
 	                     [--dir DIR] [--save-links FILE] [--save-bt-links FILE]
 	                     email password
-
 
 	positional arguments:
 	  email                 humblebundle.com login (email address)
