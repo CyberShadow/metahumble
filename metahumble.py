@@ -30,6 +30,8 @@ class HumbleLinker(object):
 		metalink._opts['overwrite'] = True
 		metalink._opts['create_torrent'] = False
 
+		files = set()
+
 		import progressbar
 		progress = progressbar.ProgressBar()
 
@@ -60,10 +62,13 @@ class HumbleLinker(object):
 									#print(download)
 									#print(struct)
 									#print('----------------')
+								filename = struct.url.web.split("?")[0].split("/")[-1]
+								if filename in files:
 									continue
+								files.add(filename)
 
 								m.add_file()
-								m.file.filename = struct.url.web.split("?")[0].split("/")[-1]
+								m.file.filename = filename
 								m.file.os = download.platform
 								if struct.file_size is not None:
 									m.file.size = str(struct.file_size)
