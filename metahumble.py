@@ -15,8 +15,7 @@ class HumbleLinker(object):
 		import humblebundle
 		self.client = humblebundle.HumbleApi()
 
-		if not self.cache:
-			self.client.login(username, password)
+		self.client.login(username, password)
 
 	def run(self, dl_dir = 'dl', platform = None, links_fn = None, btlinks_fn = None, get_torrents = False):
 		links = open(links_fn, 'w') if links_fn else None
