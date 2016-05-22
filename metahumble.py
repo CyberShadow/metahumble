@@ -56,7 +56,7 @@ class HumbleLinker(object):
 									torrent_fn = dl_dir + '/' + struct.url.bittorrent.split("?")[0].split("/")[-1]
 									if get_torrents and not os.path.exists(torrent_fn):
 										import urllib
-										urllib.urlretrieve (struct.url.bittorrent, torrent_fn)
+										urllib.urlretrieve(struct.url.bittorrent, torrent_fn)
 
 								if struct.url.web is not None:
 									found_link = True
