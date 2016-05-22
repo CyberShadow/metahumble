@@ -65,7 +65,11 @@ fileLoop:
 							checkHash!MD5();
 						else
 						if (hash.attributes["type"] == "sha1")
-							checkHash!SHA1();
+						{
+							// HB-provided SHA1s seem to be often wrong, disabled temporarily.
+							// Support request #366674 submitted on Sun 2016-05-22 05:34 UTC
+							//checkHash!SHA1();
+						}
 						else
 							enforce(false, "Unknown hash algorithm: " ~ hash.attributes["type"]);
 					}
