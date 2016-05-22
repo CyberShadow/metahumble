@@ -1,0 +1,6 @@
+requests
+progressbar
+
+# Optional
+
+requests_cache

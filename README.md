@@ -21,3 +21,11 @@ The generated .metalink file includes HTTPS, torrent and magnet links, as well a
 	  --dir DIR             target download directory
 	  --save-links FILE     save http/https links to given text file
 	  --save-bt-links FILE  save bittorrent links to given text file
+
+
+Requirements
+============
+
+Requires Python 2 and the libraries `requests`, `progressbar`, and optionally `requests_cache` for the `--cache` option.
+
+    pip2 install -r requirements.txt
