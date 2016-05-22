@@ -1,3 +1,4 @@
 *.pyc
 /web_cache.sqlite
 /dl
+/verify/verify
