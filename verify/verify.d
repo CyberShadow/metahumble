@@ -9,6 +9,7 @@ import std.file;
 import std.parallelism;
 import std.path;
 import std.stdio;
+import std.string;
 
 import ae.sys.file;
 import ae.utils.funopt;
@@ -53,11 +54,18 @@ fileLoop:
 				if (auto verification = file.findChild("verification"))
 					foreach (hash; verification)
 					{
+						void checkHash(alias Digest)()
+						{
+							auto result = path.fileDigest!Digest.toHexString!(LetterCase.lower)();
+							enforce(hash.text == result,
+								"Bad %ssum: Expected %s, got %s".format(hash.attributes["type"], hash.text, result));
+						}
+
 						if (hash.attributes["type"] == "md5")
-							enforce(hash.text == path.fileDigest!MD5.toHexString!(LetterCase.lower)(), "Bad MD5");
+							checkHash!MD5();
 						else
 						if (hash.attributes["type"] == "sha1")
-							enforce(hash.text == path.fileDigest!SHA1.toHexString!(LetterCase.lower)(), "Bad SHA1");
+							checkHash!SHA1();
 						else
 							enforce(false, "Unknown hash algorithm: " ~ hash.attributes["type"]);
 					}
