@@ -68,7 +68,7 @@ fileLoop:
 			synchronized(mutex)
 			{
 				badDir.ensureDirExists();
-				File(badDir.buildPath("descript.ion", "ab")).writeln(fn, " ", e.msg);
+				File(badDir.buildPath("descript.ion"), "ab").writeln(fn, " ", e.msg);
 				rename("../dl/" ~ fn, badDir.buildPath(fn));
 			}
 		}
