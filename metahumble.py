@@ -1,3 +1,5 @@
+#!/bin/python2
+
 import os, os.path
 
 class HumbleLinker(object):
@@ -46,7 +48,9 @@ class HumbleLinker(object):
 						#print download.platform
 						if platform is None or platform == download.platform:
 							for struct in download.download_struct:
+								found_link = False
 								if struct.url.bittorrent is not None:
+									found_link = True
 									if btlinks:
 										btlinks.write(struct.url.bittorrent + '\n')
 
@@ -54,14 +58,19 @@ class HumbleLinker(object):
 									if get_torrents and not os.path.exists(torrent_fn):
 										import urllib
 										urllib.urlretrieve (struct.url.bittorrent, torrent_fn)
-								elif struct.url.web is not None:
+
+								if struct.url.web is not None:
+									found_link = True
 									if links:
 										links.write(struct.url.web + '\n')
-								else:
+
+								if not found_link:
 									#print(subproduct)
 									#print(download)
 									#print(struct)
 									#print('----------------')
+									continue
+
 								filename = struct.url.web.split("?")[0].split("/")[-1]
 								if filename in files:
 									continue
