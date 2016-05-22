@@ -1,6 +1,7 @@
 import std.algorithm.searching;
 import std.array;
 import std.conv;
+import std.datetime;
 import std.digest.md;
 import std.digest.sha;
 import std.exception;
@@ -12,10 +13,16 @@ import std.stdio;
 import ae.sys.file;
 import ae.utils.funopt;
 import ae.utils.main;
+import ae.utils.time.format;
 import ae.utils.xmllite;
 
 void verify(bool verify)
 {
+	auto date = Clock.currTime().formatTime!"Y-m-d";
+	auto oldDir = "../dl/old/" ~ date;
+	auto badDir = oldDir.buildPath("bad");
+	auto unknownDir = oldDir.buildPath("unknown");
+
 	auto xml = xmlParse(readText("../dl/hb.metalink"));
 	bool[string] sawFile;
 fileLoop:
@@ -59,8 +66,9 @@ fileLoop:
 			result = e.msg;
 			synchronized
 			{
-				File("../dl/bad/descript.ion", "ab").writeln(fn, " ", e.msg);
-				rename("../dl/" ~ fn, "../dl/bad/" ~ fn);
+				badDir.ensureDirExists();
+				File(badDir.buildPath("descript.ion", "ab")).writeln(fn, " ", e.msg);
+				rename("../dl/" ~ fn, badDir.buildPath(fn));
 			}
 		}
 
@@ -76,7 +84,8 @@ fileLoop:
 		{
 			writeln(de.baseName);
 			writeln(" >> Not in metalink");
-			rename(de.name, "../dl/old/" ~ de.baseName);
+			unknownDir.ensureDirExists();
+			rename(de.name, unknownDir.buildPath(de.baseName));
 		}
 
 	foreach (fn, b; sawFile)
