@@ -25,17 +25,18 @@ void verify(bool verify)
 
 	auto xml = xmlParse(readText("../dl/hb.metalink"));
 	bool[string] sawFile;
+	auto mutex = new Object;
 fileLoop:
 	foreach (file; xml["metalink"]["files"].children.parallel)
 	{
 		auto fn = file.attributes["name"];
-		synchronized sawFile[fn] = true;
+		synchronized(mutex) sawFile[fn] = true;
 
 		foreach (url; file["resources"])
 			if (url.attributes["type"] == "bittorrent")
 			{
 				auto torrentFn = url.text.findSplit("?")[0].split("/")[$-1];
-				synchronized sawFile[torrentFn] = true;
+				synchronized(mutex) sawFile[torrentFn] = true;
 			}
 
 		auto path = "../dl/" ~ fn;
@@ -64,7 +65,7 @@ fileLoop:
 		catch (Exception e)
 		{
 			result = e.msg;
-			synchronized
+			synchronized(mutex)
 			{
 				badDir.ensureDirExists();
 				File(badDir.buildPath("descript.ion", "ab")).writeln(fn, " ", e.msg);
@@ -72,7 +73,7 @@ fileLoop:
 			}
 		}
 
-		synchronized
+		synchronized(mutex)
 		{
 			writeln(fn);
 			writeln(" >> ", result);
