@@ -1,6 +1,4 @@
 requests
 progressbar
-
-# Optional
-
+humblebundle
 requests_cache

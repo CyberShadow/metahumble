@@ -26,6 +26,6 @@ The generated .metalink file includes HTTPS, torrent and magnet links, as well a
 Requirements
 ============
 
-Requires Python 2 and the libraries `requests`, `progressbar`, and optionally `requests_cache` for the `--cache` option.
+Requires Python 2 and the libraries `requests`, `progressbar`, `humblebundle` and optionally `requests_cache` for the `--cache` option.
 
     pip2 install -r requirements.txt
